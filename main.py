@@ -21,9 +21,20 @@ def upload_file(file_path, file_name, folder_id):
         'parents': [folder_id]
     }
     media = MediaFileUpload(file_path, resumable=True)
-    file = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
-    print('File ID: %s' % file.get('id'))
+    file = service.files().create(body=file_metadata, media_body=media, fields='id, webViewLink').execute()
+    #print('File ID: %s' % file.get('id'))
+    
+    # Set permissions after file creation
+    service.permissions().create(
+        fileId=file['id'],
+        body={'type': 'anyone', 'role': 'reader'}
+    ).execute()
+
+    # Retrieve webViewLink after setting permissions
+    file = service.files().get(fileId=file['id'], fields='webViewLink').execute()
+
+    return file.get('webViewLink')
 
 if __name__ == '__main__':
-    upload_file('C:\\Users\\CJJer\\coding\\GDrive\\test.txt', 'test.txt', '1kyX7Ald3GBLkxyFX2g_mdC1_6APPvvH_')
-    print('done')
+    link = upload_file('C:\\Users\\CJJer\\coding\\GDrive\\test.txt', 'test.txt', '1kyX7Ald3GBLkxyFX2g_mdC1_6APPvvH_')
+    print(f'File Link: {link}')
