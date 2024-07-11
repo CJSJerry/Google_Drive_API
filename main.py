@@ -33,5 +33,5 @@ def upload_file(file_path, file_name, folder_id):
     return file['webViewLink']
 
 if __name__ == '__main__':
-    link = upload_file('C:\\Users\\CJJer\\coding\\GDrive\\test.txt', 'test.txt', '1kyX7Ald3GBLkxyFX2g_mdC1_6APPvvH_')
+    link = upload_file('test.txt', 'test.txt', '1kyX7Ald3GBLkxyFX2g_mdC1_6APPvvH_')
     print(f'File Link: {link}')
